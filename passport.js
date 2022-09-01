@@ -1,5 +1,6 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GithubStrategy = require("passport-github2").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const dotenv = require("dotenv");
 const passport = require("passport");
 dotenv.config();
@@ -9,6 +10,9 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+
+FACEBOOK_CLIENT_ID = process.env.FACEBOOK_CLIENT_ID;
+FACEBOOK_CLIENT_SECRET = process.env.FACEBOOK_CLIENT_SECRET;
 
 passport.use(
   new GoogleStrategy(
@@ -29,6 +33,19 @@ passport.use(
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
       callbackURL: "/auth/github/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      done(null, profile);
+    }
+  )
+);
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: FACEBOOK_CLIENT_ID,
+      clientSecret: FACEBOOK_CLIENT_SECRET,
+      callbackURL: "/auth/facebook/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
