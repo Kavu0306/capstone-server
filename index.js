@@ -30,6 +30,8 @@ app.use((req, res) => {
   });
 });
 
-app.listen("5000", () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("Server is running!");
 });
+
+app.get("/", (req, res) => res.send(`Server Running`));
